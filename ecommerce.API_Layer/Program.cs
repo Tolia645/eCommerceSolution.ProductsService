@@ -20,6 +20,19 @@ builder.Services.ConfigureHttpJsonOptions(options => {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(
+                "http://localhost:7196", 
+                "http://localhost:4200",
+                "http://localhost:7122")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +45,7 @@ app.UseRouting();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseCors();
 
 //Auth
 app.UseHttpsRedirection();
