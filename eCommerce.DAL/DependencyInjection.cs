@@ -4,6 +4,7 @@ using eCommerce.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerce.DAL;
 
@@ -16,11 +17,13 @@ public static class DependencyInjection
             .Replace("$MYSQL_HOST", Environment.GetEnvironmentVariable("MYSQL_HOST"))
             .Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
         
+        Console.WriteLine($"Connection string: {connectionString}");
+        
         //add DbContext
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseMySql(connectionString,
-                ServerVersion.AutoDetect(configuration.GetConnectionString("DefaultConnection")!)
+                ServerVersion.AutoDetect(connectionString!)
             );
         });
 

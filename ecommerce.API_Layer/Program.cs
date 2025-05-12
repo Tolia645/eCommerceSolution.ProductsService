@@ -55,4 +55,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapProductEndpoints();
 
+Console.WriteLine("Hello");
+
 app.Run();
